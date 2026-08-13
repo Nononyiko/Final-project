@@ -8,3 +8,143 @@
   margin: 0 auto;
   padding: 60px 20px 30px;
 }
+
+.Dictionary {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.search-section {
+  margin-bottom: 35px;
+}
+
+.search-section label {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.search-section input {
+  width: 100%;
+  padding: 15px 18px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+}
+
+.search-section input:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+.hint {
+  display: block;
+  margin-top: 8px;
+  color: #999;
+}
+
+.loading {
+  text-align: center;
+  color: #6c63ff;
+}
+
+.word-section {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.word-section h1 {
+  margin: 0;
+  font-size: 48px;
+  color: #272343;
+  text-transform: lowercase;
+}
+
+.Phonetic h2 {
+  margin: 10px 0 0;
+  color: #6c63ff;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.Meaning {
+  padding: 25px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.Meaning h3 {
+  margin: 0 0 15px;
+  font-size: 20px;
+  font-style: italic;
+}
+
+.Meaning p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 8px 0;
+}
+
+.Meaning em {
+  display: block;
+  color: #777;
+  margin: 8px 0 12px 20px;
+}
+
+.Synonyms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.Synonyms ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.Synonyms li {
+  background: #f0efff;
+  color: #6259e8;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px 10px;
+  color: #777;
+  font-size: 13px;
+}
+
+footer a {
+  color: #6c63ff;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 30px 12px;
+  }
+
+  .Dictionary {
+    padding: 25px 20px;
+  }
+
+  .word-section h1 {
+    font-size: 38px;
+  }
+
+  .Synonyms {
+    flex-direction: column;
+  }
+}
