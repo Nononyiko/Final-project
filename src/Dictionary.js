@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Dictionary({ defaultWord }) {
   const [word, setWord] = useState(defaultWord);
+  const [inputWord, setInputWord] = useState(defaultWord);
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    searchWord(word);
-  }
+  function searchWord(searchTerm) {
+    const cleanWord = searchTerm.trim();
 
-  function searchWord(searchWord) {
-    if (!searchWord.trim()) {
+    if (!cleanWord) {
       return;
     }
 
     setLoading(true);
+    setError(false);
 
     fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${searchWord.trim()}`
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(
+        cleanWord
+      )}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -28,13 +30,24 @@ export default function Dictionary({ defaultWord }) {
         return response.json();
       })
       .then((data) => {
+        setWord(cleanWord);
         setResults(data[0]);
         setLoading(false);
       })
       .catch(() => {
         setResults(null);
+        setError(true);
         setLoading(false);
       });
+  }
+
+  useEffect(() => {
+    searchWord(defaultWord);
+  }, [defaultWord]);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    searchWord(inputWord);
   }
 
   return (
@@ -49,8 +62,8 @@ export default function Dictionary({ defaultWord }) {
             id="search"
             type="search"
             placeholder="Search for a word"
-            value={word}
-            onChange={(event) => setWord(event.target.value)}
+            value={inputWord}
+            onChange={(event) => setInputWord(event.target.value)}
           />
         </form>
 
@@ -61,16 +74,38 @@ export default function Dictionary({ defaultWord }) {
 
       {loading && <p className="loading">Searching...</p>}
 
-      {results && (
+      {error && (
+        <p>
+          Sorry, we couldn't find the word <strong>{inputWord}</strong>.
+          Please try another word.
+        </p>
+      )}
+
+      {!loading && results && (
         <div className="Result">
           <section className="word-section">
-            <h1>{results.word}</h1>
+            <h1>{word}</h1>
 
             {results.phonetic && (
               <div className="Phonetic">
                 <h2>{results.phonetic}</h2>
               </div>
             )}
+
+            {results.phonetics &&
+              results.phonetics.find((item) => item.audio) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const audio = results.phonetics.find(
+                      (item) => item.audio
+                    );
+                    new Audio(audio.audio).play();
+                  }}
+                >
+                  🔊 Listen
+                </button>
+              )}
           </section>
 
           {results.meanings.map((meaning, index) => (
